@@ -1,6 +1,14 @@
-### wn-client
+# wn-client
 
-Talk to wn framework over HTTP
+### Talk to wn framework over HTTP
+
+## Install
+
+```
+pip install git+https://github.com/webnotes/wn-client
+```
+
+## Usage
 
 ```
 In [1]: from wn_client import WNClient
