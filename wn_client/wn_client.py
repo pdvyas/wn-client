@@ -39,6 +39,12 @@ class WNClient(object):
 			"doclist": json.dumps(doclist)
 		})
 
+	def bulk_update(self, docs):
+		return self.post_request({
+			"cmd": "webnotes.client.bulk_update",
+			"docs": json.dumps(docs)
+		})
+
 	def delete(self, doctype, name):
 		return self.post_request({
 			"cmd": "webnotes.model.delete_doc",
