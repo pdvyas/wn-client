@@ -57,6 +57,15 @@ class WNClient(object):
 			"cmd": "webnotes.client.submit",
 			"doclist": json.dumps(doclist)
 		})
+	
+	def set_value(self, doctype, docname, fieldname, value):
+		return self.post_request({
+			"cmd": "webnotes.client.set_value",
+			"doctype": doctype,
+			"name": docname,
+			"fieldname": fieldname,
+			"value": value
+		})
 
 
 	def cancel(self, doctype, name):
