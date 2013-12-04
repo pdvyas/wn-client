@@ -87,6 +87,15 @@ class WNClient(object):
 		ret = self.get_request(params)
 		return ret
 
+	def rename_doc(self, doctype, old_name, new_name):
+		params = {
+			"cmd": "webnotes.client.rename_doc",
+			"doctype": doctype,
+			"old_name": old_name,
+			"new_name": new_name
+		}
+		return self.post_request(params)
+
 	def get_request(self, params):
 		res = self.session.get(self.url, params=params)
 		res = self.post_process(res)
