@@ -15,6 +15,12 @@ class WNClient(object):
 		self.url = url
 		self.login(username, password)
 
+	def __enter__(self):
+		return self
+
+	def __exit__(self, *args, **kwargs):
+		self.logout()
+
 	def login(self, username, password):
 		r = self.session.post(self.url, data={
 			'cmd': 'login',
@@ -26,6 +32,11 @@ class WNClient(object):
 			return r.json()
 		else:
 			raise AuthError
+
+	def logout(self):
+		self.session.get(self.url, params={
+			'cmd': 'logout',
+		})
 
 	def insert(self, doclist):
 		return self.post_request({
@@ -67,7 +78,6 @@ class WNClient(object):
 			"value": value
 		})
 
-
 	def cancel(self, doctype, name):
 		return self.post_request({
 			"cmd": "webnotes.client.cancel",
@@ -86,6 +96,15 @@ class WNClient(object):
 			params["filters"] = json.dumps(filters)
 		ret = self.get_request(params)
 		return ret
+
+	def rename_doc(self, doctype, old_name, new_name):
+		params = {
+			"cmd": "webnotes.client.rename_doc",
+			"doctype": doctype,
+			"old_name": old_name,
+			"new_name": new_name
+		}
+		return self.post_request(params)
 
 	def get_request(self, params):
 		res = self.session.get(self.url, params=params)
