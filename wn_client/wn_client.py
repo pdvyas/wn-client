@@ -15,6 +15,12 @@ class WNClient(object):
 		self.url = url
 		self.login(username, password)
 
+	def __enter__(self):
+		return self
+
+	def __exit__(self, *args, **kwargs):
+		self.logout()
+
 	def login(self, username, password):
 		r = self.session.post(self.url, data={
 			'cmd': 'login',
@@ -26,6 +32,11 @@ class WNClient(object):
 			return r.json()
 		else:
 			raise AuthError
+
+	def logout(self):
+		self.session.get(self.url, params={
+			'cmd': 'logout',
+		})
 
 	def insert(self, doclist):
 		return self.post_request({
@@ -66,7 +77,6 @@ class WNClient(object):
 			"fieldname": fieldname,
 			"value": value
 		})
-
 
 	def cancel(self, doctype, name):
 		return self.post_request({
